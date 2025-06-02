@@ -1,0 +1,61 @@
+{
+  "name": "ally-cli",
+  "version": "0.1.0",
+  "description": "CLI utility to manage aliases, paths and variables based on the project/directory",
+  "private": true,
+  "author": {
+    "name": "jpozo20",
+    "url": "https://github.com/jpozo20"
+  },
+  "bin": "./dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist && rimraf components",
+    "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
+    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "cli",
+    "alias",
+    "path"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/jpozo20/ally-cli",
+  "packageManager": "pnpm@10.4.1",
+  "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "@types/node": "^22.15.29",
+    "@types/react": "^19.1.6",
+    "eslint": "^9.28.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.5.0",
+    "type-fest": "^4.41.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.33.1"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.29.4",
+    "chalk": "^5.4.1",
+    "commander": "^14.0.0",
+    "conf": "^13.1.0",
+    "execa": "^9.6.0",
+    "ink": "^6.0.0"
+  }
+}
