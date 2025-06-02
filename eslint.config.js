@@ -8,7 +8,7 @@ export default tseslint.config(
     { ignores: ['**/node_modules', '**/dist', '**/out'] },
     eslint.configs.recommended,
     tseslint.configs.recommended,
-    eslintConfigPrettier.rules,
+    eslintConfigPrettier,
     {
         // my custom rules
         rules: {
