@@ -5,7 +5,8 @@ name: Build and Test
 # Perform linting and typecheck, then build
 on:
   push:
-    branches: ["*"]
+    branches:
+      - 'main'
 
 jobs:
 
