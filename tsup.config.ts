@@ -1,4 +1,4 @@
-import { defineConfig } from 'tsup'
+import { defineConfig } from 'tsup';
 
 export default defineConfig({
   clean: true,
@@ -6,8 +6,12 @@ export default defineConfig({
   entry: ['src/index.ts'],
   format: ['esm'],
   sourcemap: true,
-  minify: true,
+  minify: false,
   target: 'esnext',
   outDir: 'dist',
   treeshake: true,
-})
+  banner: {
+    // Allows importing CommonJS modules from ESM
+    js: `import { createRequire } from 'module'; const require = createRequire(import.meta.url);`,
+  },
+});
