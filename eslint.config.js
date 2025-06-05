@@ -12,7 +12,7 @@ export default tseslint.config(
     {
         // my custom rules
         rules: {
-
+            '@typescript-eslint/no-unused-vars': ['warn']
         }
     }
 );
