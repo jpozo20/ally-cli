@@ -1,9 +1,11 @@
-import allyProgram from './program/ally-program.js';
-import manager from './data/file-manager.js';
+import initializeCLI from './program/ally-program.js';
 
+console.log('Starting Ally CLI...');
+const allyProgram = await initializeCLI();
+await allyProgram.parseAsync();
 
+const { args, options } = allyProgram;
+console.log(args);
 
-console.log('Hello, world!');
-//allyProgram.outputHelp()
-allyProgram.parse();
 // manager.saveData();
+// allyProgram.outputHelp()

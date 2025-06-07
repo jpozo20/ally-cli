@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import xdg from '@folder/xdg';
+import * as atom from 'atomically';
+import fs from 'fs';
 import os from 'os';
 import path from 'path';
 
 const appName = 'ally-cli';
 const platform = os.platform();
+const dbFileName = 'ally-cli.db';
 
 const isWindows = platform === 'win32';
 const isMac = platform === 'darwin';
@@ -44,11 +47,26 @@ const getDataDir = (): string => {
  *
  * Boilerplate code for now.
  */
-const saveData = () => {
+const saveData = async (data: string): Promise<boolean> => {
   const dataDir = getDataDir();
   console.log(`Saving data to ${dataDir}`);
 
-  // Add your saving logic here
+  try {
+    // Create the data directory if it doesn't exist
+    const finalPath = path.join(dataDir, dbFileName);
+    const dirExists = fs.existsSync(dataDir);
+    if (!dirExists) {
+      console.log(`Creating data directory: ${dataDir}`);
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+
+    console.log(`Writing data to ${finalPath}`, 'data:', data);
+    await atom.writeFile(finalPath, data);
+    return true;
+  } catch (error) {
+    console.error(`Error saving data: ${error}`);
+    return false;
+  }
 };
 
 /**
@@ -62,11 +80,25 @@ const saveData = () => {
  *
  * Boilerplate code for now.
  */
-const loadData = () => {
+const loadData = async (): Promise<string> => {
+  // Add your loading logic here
   const dataDir = getDataDir();
   console.log(`Loading data from ${dataDir}`);
+  try {
+    // Create the data directory if it doesn't exist
+    const finalPath = path.join(dataDir, dbFileName);
+    const dirExists = fs.existsSync(dataDir);
+    if (!dirExists) {
+      //fs.mkdirSync(dataDir, { recursive: true });
+      throw new Error(`Data directory does not exist: ${dataDir}`);
+    }
 
-  // Add your loading logic here
+    const data = await atom.readFile(finalPath, { encoding: 'utf-8' });
+    return data;
+  } catch (error) {
+    console.error(`Error saving data: ${error}`);
+    return '';
+  }
 };
 
 export default {

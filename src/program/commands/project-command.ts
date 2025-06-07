@@ -1,4 +1,5 @@
 import { createCommand } from '@commander-js/extra-typings';
+import DataManager from '../../data/data-manager.js';
 
 const projectCommand = createCommand('project').alias('p').description('Manage projects configurations');
 
@@ -10,9 +11,16 @@ const addProject = projectCommand
                   If no options are provided, it will use the current directory as the project name 
                   and the current path as the project path.`.trim()
   )
+
   .option('-n, --name <name>', 'Name of the project. Defaults to the current directory name.', '')
   .option('-p, --path <path>', 'Path to the project. Defaults to the current directory.', '')
-  .helpOption('-h, --help', 'Display help for this command');
+
+  .helpOption('-h, --help', 'Display help for this command')
+  .action(async () => {
+    const thisOptions = addProject.opts();
+    console.log(`Adding a new project with the following options:`, thisOptions);
+    await DataManager.getInstance().addProject(thisOptions.name, thisOptions.path);
+  });
 
 const listProjects = projectCommand
   .command('list')
@@ -26,7 +34,7 @@ const removeProject = projectCommand
   .description('Remove a project from the database.')
   .argument('<name>', 'Name of the project to remove');
 
-  // Don't show the help command by default
-  projectCommand.helpCommand(false);
+// Don't show the help command by default
+projectCommand.helpCommand(false);
 
 export default projectCommand;
