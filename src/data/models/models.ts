@@ -1,30 +1,30 @@
 type Alias = {
-    name: string;
-    command: string;
-}
+  name: string;
+  command: string;
+};
 
 type EnvVar = {
-    name: string;
-    value: string;
-}
+  name: string;
+  value: string;
+};
 
 type Path = {
-    directory: string;
-    fullPath: string;
-}
+  directory: string;
+  fullPath: string;
+};
 
 type Project = {
-    name: string;
-    path: string;
-    autoLoad?: boolean;
-    aliases?: Alias[];
-    envVars?: EnvVar[];
-    paths?: Path[];
-}
+  name: string;
+  path: string;
+  autoLoad?: boolean;
+  aliases?: Alias[];
+  envVars?: EnvVar[];
+  paths?: Path[];
+};
 
 type Database = {
-    filePath?: string;
-    projects: Project[];
-}
+  filePath?: string;
+  projects: Project[];
+};
 
-export type { Alias, EnvVar, Path, Project, Database };
+export type { Alias, Database, EnvVar, Path, Project };

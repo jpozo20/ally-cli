@@ -22,9 +22,11 @@ async function initializeCLI() {
         .addCommand(projectCommand as Command)
         .configureHelp({
           sortOptions: true,
-          sortSubcommands: true,
+          sortSubcommands: false,
           helpWidth: 80,
-        });
+        })
+        .helpOption('-h, --help', 'Display this help page')
+        .helpCommand('help [command]', 'Display help for given command');
 
       return allyProgram;
     })
