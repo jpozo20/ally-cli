@@ -1,9 +1,9 @@
+import projectsHandler from '@/data/handlers/projects-handler.js';
 import { createCommand } from '@commander-js/extra-typings';
-import DataManager from '../../data/data-manager.js';
 
 const projectCommand = createCommand('project').alias('p').description('Manage projects configurations');
 
-const addProject = projectCommand
+projectCommand
   .command('add')
   .alias('a')
   .description(
@@ -16,23 +16,27 @@ const addProject = projectCommand
   .option('-p, --path <path>', 'Path to the project. Defaults to the current directory.', '')
 
   .helpOption('-h, --help', 'Display help for this command')
-  .action(async () => {
-    const thisOptions = addProject.opts();
-    console.log(`Adding a new project with the following options:`, thisOptions);
-    await DataManager.getInstance().addProject(thisOptions.name, thisOptions.path);
+  .action(async (options) => {
+    await projectsHandler.addProject(options);
   });
 
-const listProjects = projectCommand
+projectCommand
   .command('list')
   .alias('l')
   .description('List all projects in the database.')
-  .option('-d, --details', 'Show detailed information about each project.', false);
+  .option('-d, --details', 'Show detailed information about each project.', false)
+  .action(async (options) => {
+    await projectsHandler.listProjects(options.details);
+  });
 
-const removeProject = projectCommand
+projectCommand
   .command('remove')
   .alias('rm')
   .description('Remove a project from the database.')
-  .argument('<name>', 'Name of the project to remove');
+  .argument('<name>', 'Name of the project to remove')
+  .action(async (name) => {
+    await projectsHandler.removeProject(name);
+  });
 
 // Don't show the help command by default
 projectCommand.helpCommand(false);

@@ -46,7 +46,16 @@ class DataManager {
     }
   }
 
-  async addProject(name: string, path: string) {
+  async getProjects() {
+    try {
+      return this.database.projects;
+    } catch (error) {
+      console.error('Error retrieving projects:', error);
+      return [];
+    }
+  }
+
+  async addProject(name?: string, path?: string) {
     const currentDir = process.cwd();
 
     const projectName = name || currentDir.split('/').pop() || 'default-project';
@@ -64,6 +73,17 @@ class DataManager {
 
     this.database.projects.push(project);
     await this.saveDatabase();
+  }
+
+  async removeProject(name: string) {
+    try {
+      console.log(`Removing project: ${name}`);
+      const filteredProjects = this.database.projects.filter((project) => project.name !== name);
+      this.database.projects = filteredProjects;
+      await this.saveDatabase();
+    } catch (error) {
+      console.error('Error removing project:', error);
+    }
   }
 }
 
