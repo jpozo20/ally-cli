@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { logDebug } from '@/utils/messages.js';
 import xdg from '@folder/xdg';
 import * as atom from 'atomically';
 import fs from 'fs';
@@ -49,18 +50,18 @@ const getDataDir = (): string => {
  */
 const saveData = async (data: string): Promise<boolean> => {
   const dataDir = getDataDir();
-  console.log(`Saving data to ${dataDir}`);
+  logDebug(`Saving data to ${dataDir}`);
 
   try {
     // Create the data directory if it doesn't exist
     const finalPath = path.join(dataDir, dbFileName);
     const dirExists = fs.existsSync(dataDir);
     if (!dirExists) {
-      console.log(`Creating data directory: ${dataDir}`);
+      logDebug(`Creating data directory: ${dataDir}`);
       fs.mkdirSync(dataDir, { recursive: true });
     }
 
-    console.log(`Writing data to ${finalPath}`, 'data:', data);
+    logDebug(`Writing data to ${finalPath}, ` + 'data:' + data);
     await atom.writeFile(finalPath, data);
     return true;
   } catch (error) {
@@ -83,13 +84,12 @@ const saveData = async (data: string): Promise<boolean> => {
 const loadData = async (): Promise<string> => {
   // Add your loading logic here
   const dataDir = getDataDir();
-  console.log(`Loading data from ${dataDir}`);
+  logDebug(`Loading data from ${dataDir}`);
   try {
     // Create the data directory if it doesn't exist
     const finalPath = path.join(dataDir, dbFileName);
     const dirExists = fs.existsSync(dataDir);
     if (!dirExists) {
-      //fs.mkdirSync(dataDir, { recursive: true });
       throw new Error(`Data directory does not exist: ${dataDir}`);
     }
 

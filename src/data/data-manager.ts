@@ -55,22 +55,7 @@ class DataManager {
     }
   }
 
-  async addProject(name?: string, path?: string) {
-    const currentDir = process.cwd();
-
-    const projectName = name || currentDir.split('/').pop() || 'default-project';
-    const projectPath = path || currentDir;
-    console.log(`Adding project: ${projectName} at path: ${projectPath}`);
-
-    const project: Project = {
-      name: projectName,
-      path: projectPath,
-      autoLoad: false,
-      aliases: [],
-      envVars: [],
-      paths: [],
-    };
-
+  async addProject(project: Project) {
     this.database.projects.push(project);
     await this.saveDatabase();
   }

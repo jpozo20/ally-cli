@@ -1,4 +1,6 @@
-import { default as dataManager, default as DataManager } from '../../data/data-manager.js';
+import { default as dataManager, default as DataManager } from '@/data/data-manager.js';
+import { logError, logOutput, logSuccess } from '@/utils/messages.js';
+import { Project } from '../models/models.js';
 
 const projectsHandler = {
   async addProject(options: { name?: string; path?: string }) {
@@ -6,12 +8,27 @@ const projectsHandler = {
     const projects = await manager.getProjects();
 
     if (projects.some((project) => project.name === options.name)) {
-      console.error(`Project with name "${options.name}" already exists.`);
+      logError(`Project with name "${options.name}" already exists.`);
       process.exit(0);
     }
 
+    const currentDir = process.cwd();
+
     console.log(`Adding a new project with the following options:`, options);
-    await dataManager.addProject(options.name, options.path);
+    const projectName = options.name || currentDir.split('/').pop() || 'default-project';
+    const projectPath = options.path || currentDir;
+    logSuccess(`Adding project: ${projectName} at path: ${projectPath}`);
+
+    const project: Project = {
+      name: projectName,
+      path: projectPath,
+      autoLoad: false,
+      aliases: [],
+      envVars: [],
+      paths: [],
+    };
+
+    await dataManager.addProject(project);
   },
 
   async listProjects(details: boolean) {
@@ -21,12 +38,12 @@ const projectsHandler = {
     if (details) {
       console.log('Detailed project information:');
       projects.forEach((project) => {
-        console.log(`Name: ${project.name}, Path: ${project.path}, Auto Load: ${project.autoLoad}`);
+        logOutput(`Name: ${project.name}, Path: ${project.path}, Auto Load: ${project.autoLoad}`);
       });
     } else {
-      console.log('Project names:');
+      logOutput('Project names:');
       projects.forEach((project) => {
-        console.log(project.name);
+        logOutput(project.name);
       });
     }
   },
@@ -36,12 +53,12 @@ const projectsHandler = {
 
     const projectIndex = projects.findIndex((project) => project.name === name);
     if (projectIndex === -1) {
-      console.error(`Project with name "${name}" does not exist.`);
+      logError(`Project with name "${name}" does not exist.`);
       process.exit(0);
     }
 
     await manager.removeProject(name);
-    console.log(`Project "${name}" has been removed successfully.`);
+    logSuccess(`Project "${name}" has been removed successfully.`);
   },
 };
 

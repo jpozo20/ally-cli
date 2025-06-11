@@ -1,11 +1,9 @@
+import { logDebug } from '@/utils/messages.js';
 import initializeCLI from './program/ally-program.js';
 
-console.log('Starting Ally CLI...');
+logDebug('Starting Ally CLI...');
 const allyProgram = await initializeCLI();
 await allyProgram.parseAsync();
 
-const { args, options } = allyProgram;
-console.log(args);
-
-// manager.saveData();
-// allyProgram.outputHelp()
+// const { args, options } = allyProgram;
+// console.log(args);

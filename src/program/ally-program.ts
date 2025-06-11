@@ -1,7 +1,8 @@
 import DataManager from '@/data/data-manager.js';
+import { logDebug, logError } from '@/utils/messages.js';
 import { Command } from 'commander';
 import packageInfo from '../../package.json' with { type: 'json' };
-import { aliasCommand, projectCommand } from './ally-commands.js';
+import { aliasCommand, projectsCommand } from './ally-commands.js';
 
 const name = 'ally-cli';
 const version = packageInfo.version;
@@ -11,7 +12,7 @@ async function initializeCLI() {
   const program = DataManager.getInstance()
     .loadDatabase()
     .then(() => {
-      console.log('Database loaded successfully.');
+      logDebug('Database loaded successfully.');
 
       const allyProgram = new Command()
         .enablePositionalOptions(true)
@@ -19,7 +20,7 @@ async function initializeCLI() {
         .name(name)
         .description(description)
         .addCommand(aliasCommand as Command)
-        .addCommand(projectCommand as Command)
+        .addCommand(projectsCommand as Command)
         .configureHelp({
           sortOptions: true,
           sortSubcommands: false,
@@ -31,7 +32,7 @@ async function initializeCLI() {
       return allyProgram;
     })
     .catch((error) => {
-      console.error('Error loading database:', error);
+      logError('Error loading database: ' + error.message);
       process.exit(1);
     });
 

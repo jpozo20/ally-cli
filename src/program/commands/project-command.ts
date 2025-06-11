@@ -1,9 +1,9 @@
 import projectsHandler from '@/data/handlers/projects-handler.js';
 import { createCommand } from '@commander-js/extra-typings';
 
-const projectCommand = createCommand('project').alias('p').description('Manage projects configurations');
+const projectsCommand = createCommand('projects').alias('p').description('Manage projects configurations');
 
-projectCommand
+projectsCommand
   .command('add')
   .alias('a')
   .description(
@@ -20,7 +20,7 @@ projectCommand
     await projectsHandler.addProject(options);
   });
 
-projectCommand
+projectsCommand
   .command('list')
   .alias('l')
   .description('List all projects in the database.')
@@ -29,7 +29,7 @@ projectCommand
     await projectsHandler.listProjects(options.details);
   });
 
-projectCommand
+projectsCommand
   .command('remove')
   .alias('rm')
   .description('Remove a project from the database.')
@@ -39,6 +39,6 @@ projectCommand
   });
 
 // Don't show the help command by default
-projectCommand.helpCommand(false);
+projectsCommand.helpCommand(false);
 
-export default projectCommand;
+export default projectsCommand;
