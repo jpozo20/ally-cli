@@ -29,6 +29,7 @@ const projectsHandler = {
     };
 
     await dataManager.addProject(project);
+    return project;
   },
 
   async listProjects(details: boolean) {

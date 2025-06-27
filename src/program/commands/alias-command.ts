@@ -1,3 +1,7 @@
+import aliasHandler from '@/data/handlers/alias-handler.js';
+import { Alias } from '@/data/models/models.js';
+import { parseAliasesFromShell } from '@/utils/alias-parser.js';
+import { logError } from '@/utils/messages.js';
 import { createCommand } from '@commander-js/extra-typings';
 
 const aliasCommand = createCommand('alias').alias('a').description('Manage alias configurations');
@@ -9,15 +13,30 @@ const addAlias = aliasCommand
   .option('-p, --project <name>', 'Name of the project to add aliases to. Defaults to the project in the current path.', '')
   .option('-d, --directory <path>', `Path for a directory to add aliases to. Defaults to the current directory.`, '.')
   .option('-c, --create-project', 'Tells the CLI to make a new project if the specified path is not found in the database', false)
-  .argument('<alias...>', 'Aliases to add to the project. Multiple aliases can be specified, separated by spaces.');
+  .argument('<alias...>', 'Aliases to add to the project. Multiple aliases can be specified, separated by spaces.')
+  .action(async (aliases, options) => {
+    const { project, directory, createProject } = options;
+    const parsedAliases: Alias[] = await parseAliasesFromShell(aliases);
+
+    if (parsedAliases.length === 0) {
+      logError('No valid aliases found. Please try again with valid aliases.');
+      return;
+    }
+
+    await aliasHandler.addAlias(parsedAliases, project, directory, createProject);
+  })
 
 const listAliases = aliasCommand
   .command('list')
   .alias('l')
   .description('List all aliases in the database.')
   .option('-p, --project <name>', 'Name of the project to list aliases for. Defaults to the project in the current path.', '')
-  .option('-d, --directory <path>', 'Path for a directory to list aliases for. Defaults to the current directory.', '.')
-  .option('-a, --all', 'List all aliases in the database, regardless of the project or directory.', false);
+  .option('-d, --directory <path>', 'Path for a directory to list aliases for. Defaults to the current directory.', '')
+  .option('-a, --all', 'List all aliases in the database, regardless of the project or directory.', false)
+  .action(async (options) => {
+    const { project, directory, all } = options;
+    await aliasHandler.listAliases(project, directory, all);
+  });
 
 const removeAlias = aliasCommand
   .command('remove')
@@ -26,8 +45,16 @@ const removeAlias = aliasCommand
   .option('-p, --project <name>', 'Name of the project to remove aliases from. Defaults to the project in the current path.', '')
   .option('-d, --directory <path>', 'Path for a directory to remove aliases from. Defaults to the current directory.', '.')
   .option('-a, --all', 'Remove all aliases from the project or directory.', false)
-  .option('-n, --no-throw', 'Do not throw an error if an alias in the list does not exist in the project or directory.', false)
-  .argument('<alias...>', 'Aliases to remove from the project.');
+  //.option('-n, --no-throw', 'Do not throw an error if an alias in the list does not exist in the project or directory.', false)
+  .argument('[alias...]', 'Aliases to remove from the project.')
+  .action(async (aliases, options) => {
+    const { project, directory, all } = options;
+    if (aliases.length === 0 && !all) {
+      logError('No aliases specified to remove. Please provide at least one alias or use the --all option.');
+      return;
+    }
+    await aliasHandler.removeAlias(project, aliases, directory, all);
+  });
 
 // Don't show the help command by default
 aliasCommand.helpCommand(false);

@@ -8,7 +8,7 @@ const config = {
   singleQuote: true,
   tabWidth: 2,
   printWidth: 160,
-  plugins: ['prettier-plugin-organize-imports']
+  //plugins: ['prettier-plugin-organize-imports']
 };
 
 export default config;

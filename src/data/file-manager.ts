@@ -101,8 +101,25 @@ const loadData = async (): Promise<string> => {
   }
 };
 
+/**
+ * Reads a file from and returns its content.
+ *
+ * @param {string} filePath - The path to the file to read.
+ * @returns {Promise<string>} The contents of the file.
+ */
+const readFile = async (filePath: string): Promise<string> => {
+  try {
+    const data = await atom.readFile(filePath, { encoding: 'utf-8' });
+    return data;
+  } catch (error) {
+    console.error(`Error reading file ${filePath}: ${error}`);
+    return '';
+  }
+};
+
 export default {
   getDataDir,
   saveData,
   loadData,
+  readFile
 };
