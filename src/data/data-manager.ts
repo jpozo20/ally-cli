@@ -21,6 +21,8 @@ class DataManager {
   async loadDatabase() {
     try {
       const data = await fileManager.loadData();
+      if (data === '' || !data) return this.database;
+
       const parsedData = JSON.parse(data);
       this.database = parsedData as Database;
     } catch (error) {
@@ -69,6 +71,12 @@ class DataManager {
     } catch (error) {
       console.error('Error removing project:', error);
     }
+  }
+
+  resetDatabase() {
+    this.database = {
+      projects: [],
+    };
   }
 }
 

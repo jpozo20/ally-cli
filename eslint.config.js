@@ -12,7 +12,11 @@ export default tseslint.config(
     {
         // my custom rules
         rules: {
-            '@typescript-eslint/no-unused-vars': ['warn']
+            '@typescript-eslint/no-unused-vars': ['warn'],
+            "@typescript-eslint/ban-ts-comment": ["error", {
+                // Disable @ts-ignore for specific cases
+                "ts-nocheck": false
+            }]
         }
     }
 );

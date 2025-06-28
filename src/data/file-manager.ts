@@ -96,7 +96,7 @@ const loadData = async (): Promise<string> => {
     const data = await atom.readFile(finalPath, { encoding: 'utf-8' });
     return data;
   } catch (error) {
-    console.error(`Error saving data: ${error}`);
+    console.error(`Error loading data: ${error}`);
     return '';
   }
 };

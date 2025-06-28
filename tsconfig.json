@@ -19,20 +19,21 @@
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": ".",
     "baseUrl": ".",
     "paths": {
       "@/*": [
         "src/*"
       ],
       "@test/*": [
-        "test/*"
+        "tests/*"
       ]
     },
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
+    "tests/**/*.ts",
   ],
   "exclude": [
     "node_modules"

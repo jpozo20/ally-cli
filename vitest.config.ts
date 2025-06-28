@@ -1,3 +1,4 @@
+import path from 'path';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { configDefaults, defineConfig } from 'vitest/config';
 
@@ -10,4 +11,10 @@ export default defineConfig({
       ignoreConfigErrors: true,
     }),
   ],
+  resolve:{
+    alias:{
+      '@/*': path.resolve(__dirname, './src'),
+      '@test/*': path.resolve(__dirname, './tests'),
+    }
+  },
 });
