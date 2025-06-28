@@ -15,7 +15,10 @@ export default tseslint.config(
             '@typescript-eslint/no-unused-vars': ['warn'],
             "@typescript-eslint/ban-ts-comment": ["error", {
                 // Disable @ts-ignore for specific cases
-                "ts-nocheck": false
+                "ts-nocheck": false,
+                "ts-check": "allow-with-description",
+                "ts-ignore": "allow-with-description",
+                "ts-expect-error": "allow-with-description",
             }]
         }
     }

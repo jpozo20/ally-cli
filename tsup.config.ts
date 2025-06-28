@@ -11,6 +11,7 @@ export default defineConfig({
   target: 'esnext',
   outDir: 'dist',
   treeshake: true,
+  tsconfig: 'tsconfig.base.json',
   banner: {
     // Allows importing CommonJS modules from ESM
     js: `import { createRequire } from 'module'; const require = createRequire(import.meta.url);`,
@@ -20,4 +21,5 @@ export default defineConfig({
     const drop = env.NODE_ENV === 'production' ? ['console', 'debugger'] : [];
     options.drop = drop as unknown as string[];
   },
+
 });
