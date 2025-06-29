@@ -8,8 +8,10 @@ const projectsHandler = {
     const projects = await manager.getProjects();
 
     if (projects.some((project) => project.name === options.name)) {
-      logError(`Project with name "${options.name}" already exists.`);
-      process.exit(0);
+      const message = `Project with name "${options.name}" already exists.`;
+      logError(message);
+
+      throw new Error(message);
     }
 
     const currentDir = process.cwd();
@@ -28,7 +30,7 @@ const projectsHandler = {
       paths: [],
     };
 
-    await dataManager.addProject(project);
+    await manager.addProject(project);
     return project;
   },
 

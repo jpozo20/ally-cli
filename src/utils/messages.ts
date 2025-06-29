@@ -26,8 +26,9 @@ const logMessage = (message: string, level: string) => {
   if (level === LogLevel.Debug && !isDebugMode) {
     return;
   }
-
-  console.log(loggedMessage);
+  if (level === LogLevel.Error) console.error(loggedMessage);
+  else console.log(loggedMessage);
+  
 };
 
 export const logOutput = console.log;

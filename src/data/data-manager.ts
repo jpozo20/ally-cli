@@ -5,13 +5,13 @@ class DataManager {
   database: Database;
   static instance: DataManager;
 
-  constructor() {
+  private constructor() {
     this.database = {
       projects: [],
     };
   }
 
-  getInstance() {
+  static getInstance() {
     if (!DataManager.instance) {
       DataManager.instance = new DataManager();
     }
@@ -80,4 +80,4 @@ class DataManager {
   }
 }
 
-export default new DataManager();
+export default DataManager;
