@@ -18,8 +18,11 @@ export default defineConfig({
   },
 
   esbuildOptions: (options) => {
-    const drop = env.NODE_ENV === 'production' ? ['console', 'debugger'] : [];
-    options.drop = drop as unknown as string[];
+    //const drop = env.NODE_ENV === 'production' ? ['console', 'debugger'] : [];
+    //options.drop = drop as unknown as string[];
+
+    const drop = env.NODE_ENV === 'production' ? ['console.log'] : [];
+    options.pure = drop;
   },
 
 });

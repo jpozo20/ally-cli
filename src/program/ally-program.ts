@@ -27,7 +27,8 @@ async function initializeCLI() {
           helpWidth: 80,
         })
         .helpOption('-h, --help', 'Display this help page')
-        .helpCommand('help [command]', 'Display help for given command');
+        .helpCommand('help [command]', 'Display help for given command')
+        .exitOverride();
 
       return allyProgram;
     })
