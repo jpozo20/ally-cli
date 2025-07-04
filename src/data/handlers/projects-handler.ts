@@ -44,7 +44,7 @@ const projectsHandler = {
         logOutput(`Name: ${project.name}, Path: ${project.path}, Auto Load: ${project.autoLoad}`);
       });
     } else {
-      logOutput('Project names:');
+      logOutput('Projects names:');
       projects.forEach((project) => {
         logOutput(project.name);
       });
@@ -56,8 +56,11 @@ const projectsHandler = {
 
     const projectIndex = projects.findIndex((project) => project.name === name);
     if (projectIndex === -1) {
-      logError(`Project with name "${name}" does not exist.`);
-      process.exit(0);
+      const message = `Project with name "${name}" does not exist.`;
+      logError(message);
+      
+      throw new Error(message);
+      //process.exit(0);
     }
 
     await manager.removeProject(name);

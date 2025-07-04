@@ -1,8 +1,9 @@
 import DataManager from '@/data/data-manager.js';
-import { logDebug, logError } from '@/utils/messages.js';
+import { logDebug, logError, logOutput } from '@/utils/messages.js';
 import { Command } from 'commander';
 import packageInfo from '../../package.json' with { type: 'json' };
 import { aliasCommand, projectsCommand } from './ally-commands.js';
+import { log } from 'console';
 
 const name = 'ally-cli';
 const version = packageInfo.version;
@@ -28,7 +29,7 @@ async function initializeCLI() {
         })
         .helpOption('-h, --help', 'Display this help page')
         .helpCommand('help [command]', 'Display help for given command')
-        .exitOverride();
+        
 
       return allyProgram;
     })
